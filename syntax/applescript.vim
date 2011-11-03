@@ -241,5 +241,12 @@ hi def link scptComment Comment
 syn keyword scptTodo contained TODO FIXME XXX
 hi def link scptTodo Todo
 
+" --- Continue ---
+syn match	scptContinue	"¬"
+hi def link scptContinue SpecialChar
+
+
+
+
 let b:current_syntax = "applescript"
 
