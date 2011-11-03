@@ -1,19 +1,28 @@
-" Vim syntax file
-" Language:    AppleScript
-" Maintainer:  Jim Eberle <jim.eberle@fastnlight.com>
-" Last Change: Mar 18, 2010
-" URL:         http://www.fastnlight.com/syntax/applescript.vim
-
-" Use :syn w/in a buffer to see language element breakdown
+"==============================================================================
+"      FileName: applescript.vim
+"      Language: AppleScript
+"          Desc: Vim syntax file for applescript
+"        Author: Zhao Cai
+"         Email: caizhaoff@gmail.com
+"      HomePage:
+"       Version: 1.2
+"  Date Created: Thu Nov 03, 2011  03:23AM
+" Last Modified: Thu Nov 03, 2011  03:29AM
+"    Maintainer: Jim Eberle <jim.eberle@fastnlight.com>
+"           URL: http://www.fastnlight.com/syntax/applescript.vim
+"
+"       History: 1.1 Fork
+"		 1.2 Syntax: Continue
+"==============================================================================
 
 if version < 600
   syntax clear
 elseif exists("b:current_syntax")
   finish
 endif
-
+"
 " --- Statement ---
-syn keyword scptStmt get set count copy run global local prop property
+syn keyword scptStmt get set count copy global local prop property
 syn keyword scptStmt close put delete duplicate exists
 syn keyword scptStmt launch open print quit make move reopen save
 syn keyword scptStmt saving into
@@ -158,14 +167,38 @@ hi def link scptMonth scptConst
 " Time
 syn keyword scptTime minutes hours days weeks
 hi def link scptTime scptConstant
+"
+
+" --- function ---
+syn region  scptFunction  matchgroup=scptFunction start="\<on\|to\> \z([a-zA-Z0-9_]\+\)" skip="on [run|open|reopen|activate|idle]" end="end \z1" transparent fold
+hi def link scptFunction function
+
+" Note: Keep scptHandler below scptFunction to give scptHandler higher priority
+" --- handler ---
+syn region  scptHandler  matchgroup=scptHandler start="^\<on run\>" end="^\<end run\>" transparent fold skipwhite
+syn match   scptHandler "^\<end run\>"
+syn region  scptHandler  matchgroup=scptHandler start="^\<on open\>" end="^\<end open\>" transparent fold skipwhite
+syn match   scptHandler "^\<end open\>"
+syn region  scptHandler  matchgroup=scptHandler start="^\<on reopen\>" end="^\<end reopen\>" transparent fold skipwhite
+syn match   scptHandler "^\<end reopen\>"
+syn region  scptHandler  matchgroup=scptHandler start="^\<on activate\>" end="^\<end activate\>" transparent fold skipwhite
+syn match   scptHandler "^\<end activate\>"
+syn region  scptHandler  matchgroup=scptHandler start="^\<on idle\>" end="^\<end idle\>" transparent fold skipwhite
+syn match   scptHandler "^\<end idle\>"
+hi def link scptHandler method
 
 " --- Conditional ---
 syn keyword scptCond if then else
 syn match   scptCond "\<end if\>"
 hi def link scptCond Conditional
+"
+" --- Tell ---
+syn region  scptTell  matchgroup=scptTell start="<\tell\>" end="\<end tell\>" transparent skipwhite
+syn match   scptTell "\<end tell\>"
+hi def link scptTell SpecialStatement
 
 " --- Repeat ---
-syn keyword scptRepeat repeat with from to by continue 
+syn keyword scptRepeat repeat with from to by continue
 syn match   scptRepeat "\<repeat while\>"
 syn match   scptRepeat "\<repeat until\>"
 syn match   scptRepeat "\<repeat with\>"
@@ -180,9 +213,10 @@ syn match   scptException "\<end error\>"
 hi def link scptException Exception
 
 " --- Keyword ---
-syn keyword scptKeyword end tell times exit 
+syn match   scptKeyword "\s\+run"
+syn keyword scptKeyword times exit
 syn keyword scptKeyword application file alias activate
-syn keyword scptKeyword script on return without given
+syn keyword scptKeyword script return without given
 syn keyword scptKeyword considering ignoring items delimiters
 syn keyword scptKeyword some each every whose where id index item its
 syn keyword scptKeyword first second third fourth fifth sixth seventh
@@ -222,7 +256,7 @@ syn match   scptUnitBT "\<cubic metres\>"
 hi def link scptUnitBT scptKey
 
 " Metric Units
-syn keyword scptUnitMT liters centimeters meters kilometers grams kilograms 
+syn keyword scptUnitMT liters centimeters meters kilometers grams kilograms
 syn match   scptUnitMT "\<square meters\>"
 syn match   scptUnitMT "\<square kilometers\>"
 syn match   scptUnitMT "\<cubic centimeters\>"
@@ -231,10 +265,11 @@ syn match   scptUnitMT "\<degrees Celsius\>"
 syn match   scptUnitMT "\<degrees Kelvin\>"
 hi def link scptUnitMT scptKey
 
+
 " --- Comment ---
-syn match   scptComment "--.*"
-syn match   scptComment "#.*"
-syn region  scptComment start="(\*" end="\*)" contains=scptTodo
+syn region  scptComment	start="--" skip="--$" end="$" keepend contains=scptTodo
+syn region  scptComment	start="#" skip="#$" end="$" keepend contains=scptTodo
+syn region  scptComment start="(\*" end="\*)" contains=scptTodo fold
 hi def link scptComment Comment
 
 " --- Todo ---
@@ -242,7 +277,7 @@ syn keyword scptTodo containedin=scptComment contained TODO FIXME XXX
 hi def link scptTodo Todo
 
 " --- Continue ---
-syn match	scptContinue	"¬"
+syn match   scptContinue "¬"
 hi def link scptContinue SpecialChar
 
 
