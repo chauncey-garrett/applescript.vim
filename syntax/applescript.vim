@@ -234,11 +234,11 @@ hi def link scptUnitMT scptKey
 " --- Comment ---
 syn match   scptComment "--.*"
 syn match   scptComment "#.*"
-syn region  scptComment start="(\*" end="\*)"
+syn region  scptComment start="(\*" end="\*)" contains=scptTodo
 hi def link scptComment Comment
 
 " --- Todo ---
-syn keyword scptTodo contained TODO FIXME XXX
+syn keyword scptTodo containedin=scptComment contained TODO FIXME XXX
 hi def link scptTodo Todo
 
 " --- Continue ---
