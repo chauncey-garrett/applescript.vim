@@ -281,6 +281,7 @@ syn match   scptContinue "¬"
 hi def link scptContinue SpecialChar
 
 
+syn sync fromstart
 
 
 let b:current_syntax = "applescript"
