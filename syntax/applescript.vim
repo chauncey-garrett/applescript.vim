@@ -170,22 +170,12 @@ hi def link scptTime scptConstant
 "
 
 " --- function ---
-syn region  scptFunction  matchgroup=scptFunction start="\<on\|to\> \z([a-zA-Z0-9_]\+\)" skip="on [run|open|reopen|activate|idle]" end="end \z1" transparent fold
-hi def link scptFunction function
+syn region  scptFunctionBlock  matchgroup=scptFunction start="^\(on\|to\) \z([a-zA-Z0-9_]\+\)\ze(.*)" end="^end \z1$" transparent fold
+hi def link scptFunction Function
 
-" Note: Keep scptHandler below scptFunction to give scptHandler higher priority
 " --- handler ---
-syn region  scptHandler  matchgroup=scptHandler start="^\<on run\>" end="^\<end run\>" transparent fold skipwhite
-syn match   scptHandler "^\<end run\>"
-syn region  scptHandler  matchgroup=scptHandler start="^\<on open\>" end="^\<end open\>" transparent fold skipwhite
-syn match   scptHandler "^\<end open\>"
-syn region  scptHandler  matchgroup=scptHandler start="^\<on reopen\>" end="^\<end reopen\>" transparent fold skipwhite
-syn match   scptHandler "^\<end reopen\>"
-syn region  scptHandler  matchgroup=scptHandler start="^\<on activate\>" end="^\<end activate\>" transparent fold skipwhite
-syn match   scptHandler "^\<end activate\>"
-syn region  scptHandler  matchgroup=scptHandler start="^\<on idle\>" end="^\<end idle\>" transparent fold skipwhite
-syn match   scptHandler "^\<end idle\>"
-hi def link scptHandler method
+syn region  scptHandler  matchgroup=scptHandler start="^\<on \z(run\|open\|reopen\|activate\|idle\)\>" end="^end \z1$" transparent fold skipwhite
+hi def link scptHandler Method
 
 " --- Conditional ---
 syn keyword scptCond if then else
@@ -213,8 +203,7 @@ syn match   scptException "\<end error\>"
 hi def link scptException Exception
 
 " --- Keyword ---
-syn match   scptKeyword "\s\+run"
-syn keyword scptKeyword times exit
+syn keyword scptKeyword run times exit
 syn keyword scptKeyword application file alias activate
 syn keyword scptKeyword script return without given
 syn keyword scptKeyword considering ignoring items delimiters
