@@ -34,7 +34,7 @@ fun! GetIndent()
         endif
     endif
 
-    if line =~ '^\s*\<repeat\>\|^\s*\<on\>\|^\s*\<else\>'
+    if line =~ '^\s*\<repeat\>\|^\s*\<on\>\|^\s*\<else\>\|^\s*\<with\>'
         let ind += &sw
     endif
 
